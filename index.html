@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #table tr td, #table tr th{
+            padding: 5px;
+            border: 2px solid black;
+        }
+    </style>
+</head>
+<body>
+    <table id="table">
+        <thead>
+            <th>ID</th>
+            <th>LAST MODIFIED</th>
+            <th>PUBLISHED</th>
+            <th>SOURCE IDENTIFIER</th>
+            <th>STATUS</th>
+        </thead>
+    </table>
+    <script>
+        const getData = async () => {
+        try {
+            const response = await fetch('http://localhost:5000/get');
+        if(response.ok){
+            const table = document.getElementById('table');
+            const data = await response.json();
+            console.log(data);
+            data.forEach(ele => {
+                const tableRow1 = document.createElement("td") 
+                const tableRow2 = document.createElement("td") 
+                const tableRow3 = document.createElement("td") 
+                const tableRow4 = document.createElement("td") 
+                const tableRow5 = document.createElement("td") 
+                tableRow1.innerHTML = ele.cve.id;
+                tableRow2.innerHTML = ele.cve.lastModified;
+                tableRow3.innerHTML = ele.cve.published;
+                tableRow4.innerHTML = ele.cve.sourceIdentifier;
+                tableRow5.innerHTML = ele.cve.vulnStatus;
+                const tableRow = document.createElement("tr");
+                tableRow.appendChild(tableRow1)
+                tableRow.appendChild(tableRow2)
+                tableRow.appendChild(tableRow3)
+                tableRow.appendChild(tableRow4)
+                tableRow.appendChild(tableRow5)
+                table.appendChild(tableRow);
+            });
+        }
+        } catch (error) {
+            console.log(error);
+        }
+        }
+        getData();
+    </script>
+</body>
+</html>
